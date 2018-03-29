@@ -11,11 +11,33 @@ server.use(express.json())
 require('./routes/produtos')(server)
 
 server.use((req, res, next) => {
-    res.render('erros/500', {erro: 'Página não encontrada!'})
+    const erro = 'Página não encontrada!'
+
+    res.format({
+        default: () => {
+            res.send({erro: erro})
+        }
+        ,html: () => {
+            res.render('erros/500', {erro: erro})
+        }
+        ,json: () => {
+            res.send({erro: erro})
+        }
+    })
 })
 
 server.use((err, req, res, next) => {
-    res.render('erros/500', {erro: err})
+    res.format({
+        default: () => {
+            res.send({erro: err})
+        }
+        ,html: () => {
+            res.render('erros/500', {erro: err})
+        }
+        ,json: () => {
+            res.send({erro: err})
+        }
+    })
 })
 
 module.exports = server
