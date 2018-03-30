@@ -5,9 +5,9 @@ module.exports = {
 
         return mysql.createPool({
             user: 'root',
-            password: 'caelum',
-            host: 'localhost',
-            port: 3306,
+            password: '',
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
             database: 'cdc',
             connectionLimit: 10
         })

@@ -1,4 +1,5 @@
 //const queryString = require('query-string')
+require('dotenv').config()
 const express = require('express')
 const expressValidator = require('express-validator')
 

@@ -1,0 +1,16 @@
+version: '3.0'
+services:
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+  
+  node:
+    build: ./
+    image: caelum/node
+    environment:
+      - DB_HOST=mysql
+    ports:
+      - 80:3000
