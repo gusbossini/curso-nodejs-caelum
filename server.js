@@ -1,5 +1,6 @@
 //const queryString = require('query-string')
 const express = require('express')
+const expressValidator = require('express-validator')
 
 const server = express()
 
@@ -7,6 +8,7 @@ server.set('view engine', 'ejs')
 server.use(express.static('./public'))
 server.use(express.urlencoded())
 server.use(express.json())
+server.use(expressValidator())
 
 require('./routes/produtos')(server)
 

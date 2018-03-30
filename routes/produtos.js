@@ -34,19 +34,34 @@ module.exports = (server) => {
 
     server.get('/produtos/form', (req, res) => {
         res.render('produtos/form', {
-            validationErrors: []
+            validationErrors: [],
+            livro: {}
         })
     })
 
     server.post('/produtos', (req, res, next) => {
         const livro = req.body
-        new LivroDAO().inserirLivro(livro, (err, result) => {
-            if (err) {
-                next(err)
-            } else {
-                res.redirect('/')
-            }
-        })
+
+        req.assert('titulo', 'Titulo vazio.').notEmpty()
+        req.assert('preco', 'Preco vazio.').notEmpty()
+        req.assert('preco', 'Preco deve ser um número.').isNumeric()
+
+        req.asyncValidationErrors()
+            .then(() => {
+                new LivroDAO().inserirLivro(livro, (err, result) => {
+                    if (err) {
+                        next(err)
+                    } else {
+                        res.redirect('/')
+                    }
+                })
+            })
+            .catch((listaErros) => {
+                res.render('produtos/form', {
+                    validationErrors: listaErros,
+                    livro: livro
+                })
+            })
     })
   
 }
