@@ -48,13 +48,10 @@ module.exports = (server) => {
 
         req.asyncValidationErrors()
             .then(() => {
-                new LivroDAO().inserirLivro(livro, (err, result) => {
-                    if (err) {
-                        next(err)
-                    } else {
-                        res.redirect('/')
-                    }
-                })
+                return new LivroDAO().inserirLivro(livro)
+            })
+            .then(() => {
+                res.redirect('/')
             })
             .catch((listaErros) => {
                 res.render('produtos/form', {
@@ -62,6 +59,7 @@ module.exports = (server) => {
                     livro: livro
                 })
             })
+            .catch(next)
     })
   
 }
