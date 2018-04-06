@@ -3,6 +3,7 @@ const LivroDAO = require('../db/LivroDAO')
 module.exports = (server) => {
     
     server.get('/', (req, res, next) => {
+        res.set('Access-Control-Allow-Origin', '*')
         new LivroDAO().listarLivros((err, result) => {
             listar(err, result, res, next)
         })

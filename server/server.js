@@ -11,6 +11,14 @@ server.use(express.urlencoded())
 server.use(express.json())
 server.use(expressValidator())
 
+// configurar o CORS
+server.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', '*')
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Accept, Origin')
+    next()
+})
+
 require('./routes/produtos')(server)
 
 server.use((req, res, next) => {
